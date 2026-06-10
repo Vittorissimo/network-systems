@@ -1,0 +1,10 @@
+SNMP: monitora, riceve alert, controlla dispositivi da remoto.
+
+Telnet: permette di aprire una sessione da terminale su un computer remoto. É insicuro.
+
+host: qualsiasi dispositivo connesso a una rete, interagiscono usando risorse comuni. Ha un indirizzo IP e una porta che prende il nome di socket.
+
+Architettura delle applicazioni di rete:
+- Client/server: Devono usare un server sempre attivo con un indirizzo IP statico restando in attesa di uno o piú host che si connettano. I Client non possono comunicare tra di loro ma solo con il server. Se il server non é in grado di soddisfare tutte le richieste ha una congestione.
+- peer-to-peer: architettura decentralizzato, sono coppie di host che dialogano tra di loro senza server, ogni peer fornisce una risorsa e ottiene altre risorse. Un peer ha la funzionalitá sia di client sia server, condividono dati, memoria e banda.
+- ibrido: l'unione tra client/server e P2P. Server centrale conserva informazioni sui peer. I peer conservano dati, informano i server. I pper si dividono in super peer e in leaf peer. I super peer tengono traccia quali leaf peer hanno risorse. Leaf peer sono altri peer.
