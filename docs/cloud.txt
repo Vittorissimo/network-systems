@@ -1,0 +1,29 @@
+Pensa al cloud come a un grande magazzino di servizi informatici (calcolo, spazio per i file, software, rete) a cui accedi da internet senza sapere — e senza doverti preoccupare — di dove siano fisicamente i server. È la differenza tra avere un disco fisso a casa tua e affittare uno spazio in un deposito gigante gestito da qualcun altro: più comodo, ma "invisibile".
+
+**Pubblico, privato, ibrido, comunitario**
+
+I modelli di distribuzione si spiegano bene con un parallelo abitativo: il cloud pubblico è come vivere in un condominio enorme (Google, Microsoft) dove condividi i servizi con tante altre "famiglie"-aziende; il cloud privato è la villetta tutta tua, magari più cara ma riservata solo a te; l'ibrido è quando hai sia la villetta che un appartamento in affitto e usi l'una o l'altra secondo le esigenze; il comunitario è un condominio costruito apposta da un gruppo di persone con interessi comuni (es. più università che condividono un'infrastruttura di ricerca).
+
+**IaaS, PaaS, SaaS: il paragone della pizza**
+
+Questo è il punto che spesso confonde, ma con la pizza diventa semplice:
+
+- **IaaS** (Infrastructure as a Service) è come comprare farina, pomodoro, mozzarella e avere il forno a casa: il provider (es. AWS) ti dà i "mattoni" — server, storage, rete — ma tu gestisci sistema operativo, app e dati. Massimo controllo, ma anche massimo lavoro.
+- **PaaS** (Platform as a Service) è come usare un impasto già pronto e gli attrezzi della cucina condivisa: il provider (Google App Engine, Azure App Service) ti dà framework, database, sistemi di autenticazione già configurati, e tu ti concentri solo sulla "ricetta", cioè sviluppare l'app. Meno libertà ma molto meno lavoro di setup.
+- **SaaS** (Software as a Service) è la pizza che ti arriva già pronta a casa: usi direttamente Google Workspace o Microsoft 365 senza pensare a nulla di tecnico, apri il browser e lavori.
+
+**Perché tutti lo usano**
+
+I vantaggi spiegano il boom del cloud: costi più bassi (non compri hardware, paghi solo quello che usi, un po' come Netflix vs comprare DVD), scalabilità (se un'app diventa virale, le risorse si espandono al bisogno), backup e disaster recovery automatici, collaborazione in tempo reale (tipo Google Docs, dove tu e i compagni modificate lo stesso file insieme) e aggiornamenti automatici senza che nessuno debba installare nulla manualmente.
+
+**E la sicurezza?**
+
+Qui entrano in gioco crittografia dei dati, backup, controllo degli accessi, protezione da malware con aggiornamenti regolari, e la conformità a normative come il GDPR per la protezione dei dati personali — fondamentale soprattutto in Europa.
+
+**Dove si usa il cloud**
+
+Praticamente ovunque: analisi dati, intelligenza artificiale e machine learning, hosting di siti e app, archiviazione file (Google Drive, iCloud) e streaming (Netflix, Spotify girano su infrastrutture cloud).
+
+**WAN vs SD-WAN: il traffico delle reti**
+
+Una WAN tradizionale è come una strada fissa con percorso obbligato: i router fisici instradano il traffico secondo un'infrastruttura predefinita, e se quella via si intasa, niente da fare — spesso tutto il traffico passa per il data center centrale prima di uscire su internet, creando lentezza per app cloud come Microsoft 365 o Salesforce. La SD-WAN è invece come un navigatore GPS intelligente: un software "controller" sceglie automaticamente il percorso migliore tra più collegamenti disponibili (fibra, 5G, MPLS, internet), instrada il traffico direttamente verso il cloud, dà priorità alle app importanti e migliora sicurezza e prestazioni riducendo anche i costi.
