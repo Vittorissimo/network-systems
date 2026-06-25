@@ -1,0 +1,32 @@
+La sicurezza delle reti è un problema reale: chiunque con un packet sniffer (es. Wireshark) può intercettare i dati che viaggiano in rete, che per natura non sono sicure. I tre aspetti chiave da garantire sono segretezza (solo gli autorizzati capiscono il messaggio), autenticazione (verificare chi sta comunicando) e affidabilità (garanzia che il documento non sia stato alterato).
+
+**La cifratura** trasforma un messaggio (plain text) in testo cifrato (cipher text) tramite un algoritmo + una chiave. Le regole devono essere note sia a mittente che destinatario.
+
+**Schema simmetrico vs asimmetrico:**
+
+- Simmetrico: stessa chiave per cifrare e decifrare (chiave "comune")
+- Asimmetrico: chiave pubblica per cifrare, chiave privata (segreta) per decifrare
+
+**DES (Data Encryption Standard)**
+
+- Chiave a 64 bit (56 effettivi + 8 di parità), blocchi da 64 bit
+- Rispetta i principi di Kerckhoffs (algoritmo pubblico, chiave segreta) e Shannon (diffusione = effetto valanga, confusione = relazione complessa chiave-testo)
+- Funziona con 16 round basati su una Feistel network: espansione, XOR con sottochiave, S-box (sostituzione), permutazione, scambio L/R
+- Violato nel 1998 tramite brute force
+
+**Evoluzioni:**
+
+- 3-DES: tre cifrature DES con chiavi diverse (fino a 168 bit), molto più sicuro
+- IDEA: chiave a 128 bit, blocchi 64 bit, 8 iterazioni — ma oggi poco usato perché i blocchi sono troppo piccoli
+- AES (Advanced Encryption Standard, 2001): blocchi da 128 bit, chiavi da 128/192/256 bit, è lo standard attuale per velocità e sicurezza
+
+**AES in dettaglio:**
+
+Lavora su una griglia 4×4 byte (16 byte = 128 bit), con 10 round (per chiavi a 128 bit). Ogni round ha 4 fasi:
+
+1. Substitute Bytes — sostituzione non lineare via S-box
+2. Shift Rows — scorrimento circolare delle righe (1,2,3 byte)
+3. Mix Columns — mescola le colonne con moltiplicazione matriciale
+4. Add Round Key — XOR con una sottochiave derivata dalla chiave principale tramite key schedule
+
+Ogni round usa una sottochiave diversa generata dalla chiave originale.
