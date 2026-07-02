@@ -1,0 +1,19 @@
+**L'idea base**: due chiavi diverse invece di una sola. Una **pubblica** (la dai a tutti, serve per cifrare) e una **privata** (la tieni segreta, serve per decifrare). Come un lucchetto: chiunque può chiuderlo (chiave pubblica), ma solo tu hai la chiave per aprirlo (chiave privata).
+
+**Due modalità d'uso**:
+
+- **Confidenziale**: cifri con la chiave pubblica del destinatario → solo lui può leggere (garantisce riservatezza)
+- **Autenticazione/firma**: cifri con la tua chiave privata → chiunque verifica con la tua chiave pubblica che sei stato tu a scriverlo (garantisce autenticità, non riservatezza)
+
+**Per avere entrambe** (esempio Anna→Bruno): Anna cifra con la chiave pubblica di Bruno (solo lui legge) E firma con la sua chiave privata (Bruno verifica che è Anna).
+
+**RSA**: l'algoritmo più usato.
+
+- Si scelgono due numeri primi grandi p e q, si calcola n = p·q
+- Chiave pubblica = (e, n), chiave privata = (d, n), legate dalla relazione d·e ≡ 1 mod (p-1)(q-1)
+- Cifratura: c = m^e mod n — Decifratura: c^d mod n
+- La sicurezza si basa sul fatto che fattorizzare n in p e q è praticamente impossibile per numeri grandi (esempio: 5 mesi di calcolo con 80 processori per un numero di 640 bit)
+
+**Crittografia ibrida**: RSA è sicuro ma lento, gli algoritmi simmetrici (es. AES) sono veloci ma hanno il problema dello scambio chiavi. Soluzione: usi RSA solo per scambiare una "chiave di sessione" segreta, poi comunichi velocemente in simmetrico con quella chiave.
+
+**PKI**: l'infrastruttura che gestisce e certifica le chiavi pubbliche.
