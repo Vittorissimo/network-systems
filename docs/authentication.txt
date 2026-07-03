@@ -1,0 +1,35 @@
+**Firma digitale**
+
+È l'equivalente informatico della firma su carta (regolata dal Regolamento UE 910/2014). Per firmare digitalmente serve un dispositivo (smartcard, token USB o Business Key) + un PIN segreto. L'ente certificatore verifica la tua identità prima di darti il dispositivo.
+
+**Come funziona praticamente**
+
+Invece di cifrare tutto il documento (lento), si calcola prima un'**impronta** (hash) del documento con una funzione hash veloce, poi si cifra solo quella impronta con la chiave privata. Il risultato (firma + certificato) viene incapsulato col documento originale in un file **.p7m**. Chi riceve usa la chiave pubblica del mittente per verificare che la firma sia autentica.
+
+**MD5 vs SHA**
+
+Sono le due funzioni hash principali:
+
+- **MD5**: creato da Rivest nel 1991, produce un'impronta a 128 bit, è veloce ma poco sicuro ormai
+- **SHA**: creato dalla NSA, più sicuro ma più lento. Ha varie versioni: SHA-0 e SHA-1 sono "bruciate" (violate), SHA-2 e SHA-3 sono ancora usate (SHA-256 produce impronte a 256 bit)
+
+**Certificati digitali**
+
+Sono come una "carta d'identità informatica": file con scadenza che garantiscono chi è davvero qualcuno (persona o server). Contengono i dati del proprietario, la chiave pubblica, la scadenza e la firma della CA (Certification Authority) che li ha emessi.
+
+**CA e catena di fiducia**
+
+La CA Root firma le CA intermedie, che firmano i certificati finali. Per fidarsi di un certificato, il client risale tutta la catena fino alla CA Root. L'insieme di tutto questo sistema si chiama **PKI** (Public Key Infrastructure).
+
+**Come si ottiene un certificato (in 5 step)**
+
+1. Generi una coppia di chiavi (pubblica/privata) - la privata resta solo tua
+2. Mandi i tuoi dati identificativi alla CA
+3. La Registration Authority verifica i dati (a volte chiede anche partita IVA, ecc.)
+4. Se tutto ok, la CA crea il certificato e lo firma con la sua chiave privata
+5. Ti arriva il certificato e lo installi
+
+**Due formati principali**
+
+- **X.509**: emesso da CA centralizzate e affidabili
+- **PGP/GPG**: te lo crei da solo, velocissimo ma meno "ufficiale"
