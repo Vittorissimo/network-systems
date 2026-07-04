@@ -1,0 +1,59 @@
+**Cos'è**: insieme di strumenti e regole che garantiscono che i dati siano protetti, accessibili solo a chi è autorizzato, e che i servizi funzionino sempre (business continuity).
+
+**Le minacce - 3 tipi**:
+
+- **Naturali**: terremoti, incendi, alluvioni... imprevedibili, si gestiscono con analisi dei rischi, locali protetti, gruppi di continuità, backup periodici
+- **Umane**: interne (dipendenti che installano virus/trojan/worm/spyware) o esterne (sniffer per rubare password)
+- **In rete**: le LAN condividono il mezzo trasmissivo, quindi se collegate a internet sono vulnerabili ad accessi esterni non autorizzati
+
+**Esempio classico**: utente B usa un Packet Sniffer per intercettare i pacchetti di A sulla LAN, scopre la sua password e accede al server email al posto suo.
+
+**Obiettivo finale - CIA**:
+
+- **Confidentiality**: i dati restano segreti
+- **Integrity**: i dati non vengono alterati
+- **Availability**: il sistema continua a funzionare
+
+Questi obiettivi si raggiungono con autenticazione, autorizzazione, crittografia, controllo accessi, backup, autenticità/non ripudio.
+
+**SGSI (sistema di gestione sicurezza)**: applica la norma ISO 27001, monitora costantemente i rischi (accessi non autorizzati, guasti hardware/software, disastri).
+
+**Analisi dei rischi**: per ogni servizio si individuano gli **asset** (dati, persone, tecnologia, location), si elencano le minacce possibili, si stima probabilità e danno → poi si scelgono e implementano contromisure → audit.
+
+**Eventi intenzionali (attacchi)**: IP spoofing, packet sniffing, connection hijacking, DoS/DDoS.
+
+**Eventi accidentali**: backup mancanti, password gestite male, locali non protetti.
+
+**Tipi di attacco**:
+
+- **Passivi**: solo ascolto/analisi (sniffing, analisi traffico) — niente modifiche
+- **Attivi**: modificano qualcosa (sostituzione host, virus/worm/DoS, phishing, intrusione)
+
+**I 3+1 pilastri della sicurezza**:
+
+1. **Prevenzione**: crittografia, autenticazione, firewall, VPN, IPS
+2. **Rilevazione**: IDS, analisi dei log
+3. **Investigazione**: analisi dati, controlli interni
+4. **Reazione**: rimediare ai danni e ripristinare i servizi
+
+---
+
+### Sicurezza delle email
+
+Il protocollo **SMTP** trasmette in chiaro → vulnerabile durante il percorso (switch, router, gateway).
+
+Soluzione: **crittografia end-to-end** con due approcci.
+
+### S/MIME
+
+- Firma digitale + cifratura del messaggio
+- Modello **gerarchico**: una Certification Authority (CA) certifica l'identità, come un passaporto rilasciato dallo Stato
+
+### PGP (Pretty Good Privacy)
+
+- Usa crittografia a chiave pubblica (RSA)
+- Funzionamento: si genera una **session key** casuale, si cifra il messaggio con quella, poi la session key viene cifrata con la chiave pubblica del destinatario e inviata insieme
+- Il destinatario usa la sua **chiave privata** per decifrare la session key, e quindi il messaggio
+- Modello **Web of Trust** (decentralizzato): non c'è un'autorità centrale, la fiducia si propaga tra utenti che si firmano reciprocamente le chiavi (keyserver)
+
+**Differenza chiave**: S/MIME = fiducia "dall'alto" (CA centrale), PGP = fiducia "dal basso" (rete di persone che si garantiscono a vicenda).
