@@ -1,0 +1,20 @@
+**Firewall**: sistema hardware/software che protegge il confine tra LAN e Internet, filtrando i pacchetti in entrata/uscita secondo regole. Senza, la rete è esposta ad accessi indesiderati e software malevolo.
+
+Tipi:
+
+- **Ingress/Egress**: controlla traffico entrante / uscente
+- **Personal** (su singolo PC, blocca inbound non autorizzato, permette outbound) vs **Network** (protegge tutta la LAN)
+- Per livello: **packet filter** (IP, porta, protocollo a livello rete/trasporto), **circuit gateway** (livello trasporto), **proxy/application gateway** (livello applicativo)
+
+**Regole (ACL)**:
+
+- **Default deny** (closed policy, standard): blocca tutto, permette solo ciò esplicitamente autorizzato
+- **Default permit** (open policy, raro): permette tutto, blocca solo ciò vietato
+
+Azioni sui pacchetti: **accept/allow** (passa), **deny** (scartato + errore al mittente), **discard/reject** (scartato senza errore, "black hole").
+
+**Proxy**: intermediario a livello applicativo tra client e server esterno (PC → proxy → sito web). Vantaggi: cache, log, no connessione diretta, sicurezza extra, autenticazione. Svantaggi: poco trasparente, serve un proxy per ogni applicazione, performance più basse.
+
+**ACL (Access Control List)**: insieme di regole basate su indirizzo IP, protocollo, porta. Usate tipicamente sui router firewall di frontiera (es. iptables su Linux, ACL su router Cisco), spesso combinate con NAT.
+
+Punto chiave generale: la **zona più esposta** in un attacco è quella tra firewall esterno e interno (DMZ, vista nella prossima lezione), dove front-end e back-end comunicano solo su porte strettamente necessarie.
