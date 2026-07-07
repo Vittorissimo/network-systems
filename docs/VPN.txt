@@ -1,0 +1,48 @@
+**Cos'è una VPN**
+
+Nasce fine anni '90 come evoluzione delle linee dedicate. È una rete privata costruita dentro un'infrastruttura pubblica (Internet): ogni dispositivo ha un IP compatibile e comunica come se fosse nella stessa LAN.
+
+**Reti private dedicate (il "vecchio" sistema)**
+
+Canali esclusivi affittati dal gestore. Pro: banda sempre disponibile, accesso senza problemi, prestazioni e sicurezza garantite. Contro: costi alti, configurazione lenta, non scalabili, rischio blocco se un canale si rompe.
+
+**VPN vs reti dedicate**
+
+Vantaggi VPN: costi ridotti (un'unica infrastruttura), multiplexing, trasparenza (il provider non sa che esiste la VPN), capillarità (estendibile ovunque ci sia Internet).
+
+Svantaggi VPN: velocità non garantita, serve autenticazione, serve cifratura/tunneling per la sicurezza.
+
+**Tunneling**
+
+Tecnica che prende dati privati, li divide in pacchetti, li cifra, li incapsula in pacchetti pubblici e li manda su Internet — il destinatario li decifra. I router intermedi vedono solo il "guscio" esterno, non il contenuto.
+
+Funziona a due livelli OSI:
+
+- **Livello 2 (Data Link)**: PPTP (vecchio, poco sicuro) e L2TP (crea il tunnel ma non cifra → si appoggia a IPSec per la cifratura)
+- **Livello 3 (Rete)**: IPSec, protegge e cifra direttamente i pacchetti IP, garantendo riservatezza, integrità e autenticazione
+
+**Scenari di applicazione**
+
+- **Site to site**: collega sedi aziendali tra loro (router VPN su entrambi i lati)
+- **End to site**: accesso da casa/mobile all'azienda (client VPN + server/router VPN)
+- **End to end**: PC a PC, via software (IPsec, WireGuard, OpenVPN)
+
+**VPN vs Proxy**
+
+Il proxy cambia solo l'IP. La VPN in più cifra i dati: anche se intercettati, sono inutilizzabili.
+
+**Tipi di VPN per sicurezza**
+
+- **Trusted VPN**: sicurezza affidata all'ISP, garantisce i percorsi ma non alta sicurezza
+- **Secure VPN**: usa IPsec/TLS-SSL, garantisce cifratura ma non i percorsi (la più usata in commercio)
+- **Hybrid VPN**: combina le due (Secure VPN dentro una Trusted VPN)
+
+**Categorie d'uso**
+
+- **Remote Access (VPDN)**: per lavoro remoto, richiede NAS + client VPN
+- **Intranet**: collega sedi della stessa azienda, traffico costante; il gateway cifra con 3-DES, usa IPsec in Tunnel Mode e IKE per lo scambio chiavi
+- **Extranet**: collega aziende diverse con accesso limitato (filtri, SPD, autenticazione forte, certificati digitali, protocollo ESP per il tunneling)
+
+**Il futuro: oltre la VPN**
+
+Le VPN classiche hanno limiti (accesso troppo ampio, gestione complessa, problemi di sicurezza/prestazioni). Si va verso **Zero Trust** (nessuno è automaticamente affidabile) e **ZTNA**: non ci si collega a tutta la rete, ma solo alle singole applicazioni autorizzate.
