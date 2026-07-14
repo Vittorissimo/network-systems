@@ -1,0 +1,80 @@
+Il **sistema informativo** è l'insieme di persone, procedure, dati e tecnologie che un'organizzazione (azienda, scuola, ospedale...) utilizza per **gestire le informazioni** necessarie al proprio funzionamento.
+
+È importante capire che è un concetto molto ampio: comprende anche procedure manuali, documenti su carta, persone che svolgono mansioni - non solo i computer. Esisteva anche prima dell'informatica (pensa a una biblioteca che gestiva il prestito libri con schede di cartone).
+
+### Sistema Informatico
+
+Il **sistema informatico** è la parte del sistema informativo che utilizza tecnologie informatiche (hardware e software) per automatizzare la gestione delle informazioni. È quindi un **sottoinsieme** del sistema informativo - non sono sinonimi!
+
+Si divide in tre sottosistemi:
+
+**1. Sottosistema di gestione dei dati** - si occupa di memorizzare, organizzare e recuperare i dati. Comprende database, DBMS, file system, dispositivi di archiviazione.
+
+**2. Sottosistema di gestione delle interfacce** - gestisce l'interazione tra utente e macchina: interfacce grafiche (GUI), periferiche di input/output, applicazioni che l'utente usa direttamente.
+
+**3. Sottosistema di gestione delle comunicazioni** - si occupa della trasmissione dei dati tra sistemi diversi: reti locali, internet, protocolli di comunicazione.
+
+### Ciclo di vita del Sistema Informativo
+
+È la sequenza di fasi attraverso cui passa un sistema informativo, dalla nascita alla sua "morte" (sostituzione):
+
+1. **Analisi** - studio di fattibilità, raccolta dei requisiti: cosa serve all'organizzazione?
+2. **Progettazione** - si definisce come sarà strutturato il sistema (architettura, database, interfacce)
+3. **Implementazione** - sviluppo effettivo, scrittura del codice, creazione del database
+4. **Test/Collaudo** - verifica che tutto funzioni correttamente
+5. **Avviamento/Installazione** - il sistema entra in funzione nell'organizzazione
+6. **Esercizio e manutenzione** - il sistema viene usato quotidianamente, con correzioni e aggiornamenti continui
+7. **Dismissione** - quando il sistema diventa obsoleto, viene sostituito da uno nuovo (e il ciclo ricomincia)
+
+### Definizione e proprietà delle basi di dati
+
+Una **base di dati (database)** è una collezione di dati organizzati e correlati tra loro, memorizzati in modo persistente e gestiti tramite un DBMS, condivisi da più utenti e applicazioni.
+
+Le proprietà fondamentali sono:
+
+- **Persistenza** - i dati rimangono memorizzati anche dopo lo spegnimento del sistema
+- **Condivisione** - più utenti/applicazioni possono accedere contemporaneamente ai dati
+- **Integrità** - i dati devono rispettare vincoli (es. un codice fiscale non può essere duplicato)
+- **Sicurezza** - controllo degli accessi, solo chi è autorizzato può leggere/modificare certi dati
+- **Indipendenza dai programmi** - i dati sono separati dalle applicazioni che li usano, quindi posso cambiare un programma senza toccare il database (e viceversa)
+- **Ridondanza controllata** - si evita di ripetere inutilmente le stesse informazioni in più posti
+
+### I modelli di Database
+
+Sono i diversi modi di organizzare logicamente i dati all'interno di un database:
+
+**Modello Gerarchico** - i dati sono organizzati come un **albero**: ogni elemento (figlio) ha un solo elemento padre, e da un padre possono derivare molti figli (relazione 1 a molti). È rigido: se un dato dovesse appartenere a due "rami" diversi, c'è un problema. Esempio concettuale: la struttura di cartelle di un file system.
+
+**Modello Reticolare (a rete/network)** - è un'evoluzione del gerarchico: ora un figlio può avere **più genitori**. La struttura diventa un grafo invece di un albero, più flessibile ma anche più complessa da gestire.
+
+**Modello Relazionale** - i dati sono organizzati in **tabelle** (chiamate "relazioni"), composte da righe (record/tuple) e colonne (attributi/campi). È basato sull'algebra relazionale (proposto da Codd nel 1970) ed è il modello più usato oggi (MySQL, PostgreSQL, SQL Server, Oracle...). Le tabelle si collegano tra loro tramite chiavi primarie ed esterne.
+
+**Modello Relazionale a oggetti** - combina il modello relazionale con i concetti della programmazione orientata agli oggetti (classi, oggetti, ereditarietà). Permette di memorizzare nelle tabelle dati più complessi (non solo numeri e testo, ma anche oggetti strutturati), mantenendo comunque la struttura a tabelle del modello relazionale.
+
+### I DBMS e le operazioni di base sui database
+
+Il **DBMS (Database Management System)** è il software che permette di creare, gestire e interrogare un database, fornendo un'interfaccia tra l'utente/le applicazioni e i dati fisicamente memorizzati.
+
+Le funzioni principali di un DBMS includono:
+
+- **Definizione della struttura** dei dati (creare tabelle, definire campi e vincoli) - corrisponde al **DDL** (Data Definition Language)
+- **Manipolazione dei dati** - le operazioni CRUD:
+    - **C**reate → inserimento di nuovi dati (INSERT)
+    - **R**ead → lettura/interrogazione dei dati (SELECT)
+    - **U**pdate → modifica dei dati esistenti (UPDATE)
+    - **D**elete → cancellazione dei dati (DELETE)
+- **Controllo degli accessi** - gestione di utenti, permessi, sicurezza (**DCL**, Data Control Language)
+- **Gestione delle transazioni** - garantire che operazioni complesse vengano completate correttamente (proprietà ACID)
+- **Backup e recupero** dei dati in caso di guasti
+
+### I livelli di un database: concettuale, logico, fisico
+
+Questa è l'architettura a tre livelli (architettura ANSI/SPARC), che permette di avere **indipendenza** tra come i dati sono pensati, come sono organizzati e come sono effettivamente salvati:
+
+**Livello concettuale** - rappresenta i dati in modo astratto, indipendente da qualsiasi tecnologia: cosa rappresento (entità, attributi, relazioni tra di esse), senza preoccuparsi di "come". Si usa tipicamente il **modello Entità-Relazione (E-R)** con i suoi diagrammi.
+
+**Livello logico** - traduce lo schema concettuale secondo un modello di dati specifico (es. relazionale): qui nascono le tabelle, con i loro campi, le chiavi primarie ed esterne, i vincoli. Non riguarda ancora dove e come i dati sono salvati su disco.
+
+**Livello fisico** - descrive **come i dati sono effettivamente memorizzati** sul dispositivo di archiviazione: organizzazione dei file, indici per velocizzare le ricerche, strutture di memorizzazione.
+
+Il vantaggio di questa separazione è l'**indipendenza dei dati**: posso cambiare il livello fisico (es. cambiare il tipo di indice usato) senza dover modificare il livello logico o concettuale, e viceversa.
