@@ -1,0 +1,82 @@
+### 1. Progettazione concettuale
+
+La progettazione concettuale è la prima fase della progettazione di un database: si descrive la realtà che interessa (la "realtà di interesse") in modo astratto, senza pensare ancora a come i dati verranno effettivamente memorizzati in un computer. Lo strumento principale è il modello Entità-Associazioni (E-R).
+
+**Entità, attributi e istanze**
+
+Un'entità rappresenta una classe di oggetti, persone o concetti del mondo reale, con caratteristiche comuni e rilevanti per il sistema da progettare. Esempi: STUDENTE, CLASSE, CORSO. Nel diagramma si rappresenta con un rettangolo.
+
+Gli attributi sono le proprietà che descrivono un'entità. Ad esempio STUDENTE può avere gli attributi Matricola, Nome, Cognome, DataNascita.
+
+Un'istanza è un singolo elemento concreto dell'entità, con valori specifici per ogni attributo: ad esempio "Matricola 1023, Nome Marco, Cognome Bianchi" è un'istanza di STUDENTE. Quando poi passeremo alle tabelle, ogni istanza corrisponderà a una riga.
+
+**Associazioni e cardinalità (1:1, 1:N, M:N)**
+
+Un'associazione rappresenta un legame logico tra due entità e si disegna con un rombo collegato alle entità coinvolte. La cardinalità indica quante istanze di un'entità possono essere collegate a quante istanze dell'altra:
+
+- 1:1 (uno a uno): a un'istanza di A corrisponde al massimo un'istanza di B, e viceversa. Esempio: STUDENTE - CARTA D'IDENTITÀ (ogni studente ha una sola carta d'identità, e ogni carta d'identità appartiene a un solo studente).
+- 1:N (uno a molti): a un'istanza di A possono corrispondere più istanze di B, ma ogni istanza di B è collegata a una sola istanza di A. Esempio: CLASSE - STUDENTE (una classe ha molti studenti, ma ogni studente appartiene a un'unica classe).
+- M:N (molti a molti): istanze di A possono essere collegate a più istanze di B e viceversa. Esempio: STUDENTE - CORSO (uno studente può seguire più corsi, e un corso può essere seguito da molti studenti).
+
+**Il modello concettuale e il diagramma E-R**
+
+Il modello concettuale è l'insieme completo di tutte le entità individuate, dei loro attributi e di tutte le associazioni che le collegano: è la "fotografia" della realtà, indipendente dal futuro database. Il diagramma E-R è la sua rappresentazione grafica.
+
+Ecco come si presenterebbe il nostro esempio scuola in un diagramma E-R: entità con i rispettivi attributi (la chiave è contrassegnata con PK), e le tre associazioni con le rispettive cardinalità.
+
+Le notazioni "uno", "uno o molti" e "molti a molti" sui collegamenti sono proprio le cardinalità di cui parlavamo: la "gamba con il pallino e le tre linee" (crow's foot) significa "zero o molti", quella singola "uno". Nota anche che la chiave (PK) è sempre l'attributo che identifica univocamente ogni istanza dell'entità.
+
+### 2. Progettazione logica
+
+**Tabelle e relazioni**
+
+Nel modello logico (modello relazionale) i dati vengono organizzati in tabelle, che in termini matematici si chiamano relazioni. Una tabella è composta da righe (anche dette tuple o record), ciascuna corrispondente a un'istanza dell'entità, e colonne (anche detti campi o attributi), ciascuna corrispondente a una proprietà.
+
+**Regole di conversione dal modello concettuale al modello logico**
+
+Per passare dal diagramma E-R alle tabelle si seguono delle regole precise:
+
+1. Ogni entità diventa una tabella: i suoi attributi diventano le colonne, e il suo identificatore diventa la chiave primaria della tabella.
+2. Associazione 1:1 → ci sono due possibilità: se la partecipazione di entrambe le entità è obbligatoria, si possono fondere le due entità in un'unica tabella; altrimenti si mantengono due tabelle separate, inserendo la chiave primaria di una come chiave esterna nell'altra (nel nostro esempio, la Matricola dello studente diventa chiave esterna nella tabella CARTA_IDENTITA).
+3. Associazione 1:N → la chiave primaria dell'entità sul lato "1" diventa chiave esterna nella tabella dell'entità sul lato "N". Nel nostro esempio, IdClasse diventa una colonna/chiave esterna nella tabella STUDENTE.
+    1. Associazione M:N → si crea una nuova tabella (detta tabella di associazione o tabella ponte), che contiene come chiavi esterne le chiavi primarie di entrambe le entità coinvolte; insieme, queste due chiavi esterne formano spesso la chiave primaria composta della nuova tabella. Eventuali attributi propri dell'associazione (ad esempio il "Voto" che lo studente prende in un corso) finiscono in questa tabella.
+
+Nota come l'associazione M:N "frequenta" sia diventata una tabella nuova (FREQUENTA), mentre le associazioni 1:N e 1:1 sono diventate semplicemente chiavi esterne dentro le tabelle già esistenti.
+
+### 3. Chiave primaria e chiavi esterne
+
+**Chiave primaria (Primary Key)**
+
+La chiave primaria è uno o più attributi che identificano in modo univoco ogni riga di una tabella: non può mai essere nulla e non possono esistere due righe con lo stesso valore di chiave.
+
+Si distingue tra:
+
+- Chiave naturale: un attributo che esiste già "naturalmente" nella realtà e che identifica univocamente l'entità anche fuori dal database. Esempi: il Codice Fiscale per una persona, l'ISBN per un libro, la Targa per un'automobile.
+- Chiave non naturale (artificiale o surrogata): un identificatore creato apposta dal progettista, senza alcun significato nella realtà, di solito un numero generato automaticamente e progressivo (un ID intero auto-incrementale). Si usa quando non esiste una chiave naturale adatta, oppure quando si preferisce un identificatore semplice, corto e stabile nel tempo.
+
+In pratica, spesso si preferisce una chiave surrogata (ad esempio "IdStudente" generato dal sistema) anche quando esisterebbe una chiave naturale come il Codice Fiscale, perché è più semplice da gestire, occupa meno spazio e non cambia mai nel tempo.
+
+**Chiave esterna (Foreign Key)**
+
+La chiave esterna è un attributo (o un gruppo di attributi) di una tabella che fa riferimento alla chiave primaria di un'altra tabella, per rappresentare il legame tra le righe delle due tabelle. Garantisce l'integrità referenziale: il valore della chiave esterna deve sempre corrispondere a un valore esistente della chiave primaria a cui fa riferimento (oppure essere nullo, se l'associazione è opzionale). Nello schema sopra, IdClasse in STUDENTE è una chiave esterna verso CLASSE, e così via per le altre relazioni.
+
+### 4. Ridondanza
+
+**Definizione e anomalie**
+
+La ridondanza dei dati è la presenza, all'interno del database, di informazioni duplicate o ripetute più volte, quando basterebbe memorizzarle una sola volta. Non è un errore di sintassi, ma un problema di progettazione che genera tre tipi di anomalie:
+
+- Anomalia di inserimento: per aggiungere un nuovo dato si è costretti a ripetere informazioni già presenti altrove, con il rischio di inserirle in modo incoerente rispetto alle altre righe.
+- Anomalia di aggiornamento: se un'informazione ripetuta in più righe cambia, va modificata in tutte le righe in cui compare; se anche una sola viene dimenticata, il database diventa incoerente (lo stesso dato avrà valori diversi in punti diversi).
+- Anomalia di cancellazione: cancellando una riga si rischia di perdere anche altre informazioni "agganciate" a quella riga, che invece si vorrebbero conservare.
+
+**Come si risolve: la normalizzazione**
+
+Il modo principale per eliminare la ridondanza è la normalizzazione: un processo che scompone le tabelle mal progettate in più tabelle più piccole, ciascuna dedicata a un solo argomento, collegate tra loro tramite chiavi esterne. Questo processo segue regole precise chiamate forme normali (1NF, 2NF, 3NF...), che probabilmente affronterai più avanti nello studio.
+
+**Ridondanza di tabella (o di riga) e ridondanza di colonna**
+
+Si possono distinguere due tipi di ridondanza:
+
+- Ridondanza di riga (o di tabella): si verifica quando, all'interno della stessa tabella, alcune informazioni vengono ripetute su più righe perché la tabella mescola dati che riguardano entità diverse. Esempio: una tabella ISCRIZIONI con le colonne Matricola, Nome, Cognome, CodiceCorso: ogni volta che lo stesso studente si iscrive a un nuovo corso, Nome e Cognome vengono ripetuti su una nuova riga, anche se sono sempre gli stessi. La soluzione è separare le informazioni in tabelle diverse (esattamente come abbiamo fatto creando STUDENTE e FREQUENTA separate).
+- Ridondanza di colonna: si verifica quando il valore di un attributo può essere calcolato a partire da altri attributi già presenti, quindi memorizzarlo separatamente è superfluo. Esempio: una tabella STUDENTE con le colonne DataNascita ed Età: l'Età si può sempre calcolare a partire dalla DataNascita e dalla data odierna, quindi memorizzarla come colonna separata è ridondante, e rischia di diventare incoerente se non viene aggiornata ogni anno. La soluzione è non memorizzare l'attributo derivabile, ma calcolarlo al momento in cui serve (ad esempio con una query).
