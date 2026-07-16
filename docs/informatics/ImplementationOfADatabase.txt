@@ -1,0 +1,102 @@
+### MySQL con phpMyAdmin e SQL
+
+Lavorare con MySQL significa gestire **database relazionali** — dati organizzati in tabelle collegate tra loro. Puoi farlo in due modi: tramite l'interfaccia grafica di **phpMyAdmin** oppure scrivendo direttamente comandi **SQL**.
+
+---
+
+### Tipi di dati principali in MySQL
+
+Prima di creare tabelle, devi scegliere il tipo giusto per ogni campo:
+
+**Numerici:** `INT` (numeri interi), `FLOAT` / `DOUBLE` (numeri decimali), `DECIMAL(m,d)` (decimali precisi, es. per i prezzi).
+
+**Testo:** `VARCHAR(n)` (testo variabile fino a n caratteri, il più comune), `CHAR(n)` (testo di lunghezza fissa), `TEXT` (testo lungo, es. descrizioni).
+
+**Date e orari:** `DATE` (solo data: `2025-06-16`), `TIME` (solo ora), `DATETIME` (data + ora), `TIMESTAMP` (data+ora con aggiornamento automatico).
+
+**Booleani:** MySQL non ha un tipo `BOOL` nativo — si usa `TINYINT(1)` dove 0 = falso, 1 = vero.
+
+---
+
+### Via phpMyAdmin (interfaccia grafica)
+
+phpMyAdmin è una web app che ti permette di fare tutto senza scrivere SQL.
+
+**Creare un database:** vai su *Nuovo* nel pannello sinistro, scrivi il nome (es. `scuola`), scegli il charset `utf8mb4_unicode_ci` e clicca *Crea*.
+
+**Creare una tabella:** seleziona il database, vai su *Nuova tabella*, inserisci nome e numero di colonne. Per ogni colonna definisci nome, tipo, lunghezza, e se è obbligatoria (`NOT NULL`). La colonna `id` di solito è `INT`, `AUTO_INCREMENT`, e la metti come *Chiave primaria* (PK).
+
+**Inserire righe:** clicca sulla tabella → scheda *Inserisci*, compila i campi e salva.
+
+**Modificare una riga:** scheda *Sfoglia* → clicca l'icona della matita accanto alla riga da modificare.
+
+**Cancellare una riga:** stessa scheda *Sfoglia* → icona del cestino.
+
+---
+
+### Via SQL (comandi testuali)
+
+Tutto quello che fai con phpMyAdmin si può fare scrivendo SQL nella scheda **SQL**. I comandi fondamentali appartengono a due categorie:
+
+- **DDL** (Data Definition Language) — crea/modifica la struttura: `CREATE`, `ALTER`, `DROP`
+- **DML** (Data Manipulation Language) — lavora sui dati: `INSERT`, `SELECT`, `UPDATE`, `DELETE`
+
+**Creare un database e selezionarlo:**
+
+CREATE DATABASE scuola CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE scuola;
+
+
+
+Creare una tabella:
+
+CREATE TABLE studenti (
+    id       INT          AUTO_INCREMENT PRIMARY KEY,
+    nome     VARCHAR(50)  NOT NULL,
+    cognome  VARCHAR(50)  NOT NULL,
+    classe   VARCHAR(10),
+    voto     DECIMAL(4,2)
+);
+
+
+
+`AUTO_INCREMENT` fa sì che MySQL assegni automaticamente un `id` crescente a ogni riga nuova.
+
+**Inserire righe:**
+
+INSERT INTO studenti (nome, cognome, classe, voto)
+VALUES ('Mario', 'Rossi', '5A', 8.50);
+
+INSERT INTO studenti (nome, cognome, classe, voto)
+VALUES ('Lucia', 'Bianchi', '5B', 9.00);
+
+
+Nota: `id` non lo specifichi — ci pensa MySQL.
+
+**Leggere i dati:**
+
+SELECT * FROM studenti;                          -- tutte le righe e colonne
+SELECT nome, cognome FROM studenti WHERE voto > 8; -- solo chi ha voto > 8
+SELECT * FROM studenti ORDER BY cognome ASC;     -- ordine alfabetico per cognome
+
+
+Modificare una riga:
+
+UPDATE studenti
+SET voto = 9.50
+WHERE id = 1;
+
+
+Senza `WHERE` aggiorni **tutte** le righe — errore classico da evitare!
+
+**Cancellare una riga:**
+
+DELETE FROM studenti WHERE id = 2;
+
+
+Stesso rischio: senza `WHERE` cancelli tutto.
+
+**Cancellare una tabella o un database:**
+
+DROP TABLE studenti;      -- cancella la tabella con tutti i dati
+DROP DATABASE scuola;     -- cancella l'intero database
