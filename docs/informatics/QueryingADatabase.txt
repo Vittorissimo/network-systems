@@ -1,0 +1,129 @@
+### SQL e i suoi sotto-linguaggi
+
+SQL (Structured Query Language) è il linguaggio standard per gestire database relazionali. Si divide in:
+
+- **DDL** (Data Definition Language): definisce la struttura del database
+- **DML** (Data Manipulation Language): modifica i dati
+- **DCL** (Data Control Language): gestisce permessi e sicurezza
+- **DQL** (Data Query Language): interroga i dati
+
+### DDL – Definizione dei dati
+
+- `CREATE DATABASE nome_db;` → crea un database
+- `CREATE TABLE` → crea una tabella definendo colonne e tipi
+
+CREATE TABLE Studenti (
+  id INT PRIMARY KEY,
+  nome VARCHAR(50),
+  voto INT
+);
+
+
+ALTER TABLE → modifica la struttura (aggiunge/rimuove colonne)
+
+ALTER TABLE Studenti ADD email VARCHAR(100);
+
+
+DROP TABLE → elimina una tabella
+
+### DML – Manipolazione dei dati
+
+- `INSERT INTO` → aggiunge righe
+
+INSERT INTO Studenti (id, nome, voto) VALUES (1, 'Mario', 8);
+
+
+- UPDATE → modifica righe esistenti
+
+UPDATE Studenti SET voto = 9 WHERE id = 1;
+
+
+- DELETE FROM → elimina righe
+
+DELETE FROM Studenti WHERE id = 1;
+
+
+### DQL – Istruzione SELECT
+
+Sintassi base:
+
+SELECT colonne
+FROM tabella
+WHERE condizione
+GROUP BY colonna
+HAVING condizione_aggregata
+ORDER BY colonna
+LIMIT n;
+
+
+### Clausole principali
+
+- **SELECT**: colonne da mostrare ( per tutte)
+- **FROM**: tabella di partenza
+- **WHERE**: filtra le righe
+- **ORDER BY**: ordina i risultati (`ASC`/`DESC`)
+- **GROUP BY**: raggruppa righe con valori uguali
+- **HAVING**: filtra i gruppi (dopo GROUP BY)
+- **LIMIT**: limita il numero di risultati
+
+### Operatori
+
+- **Confronto**: `=`, `<>`, `>`, `<`, `>=`, `<=`
+- **Booleani**: `AND`, `OR`, `NOT`
+- **LIKE**: ricerca per pattern (`%` = qualsiasi sequenza, `_` = un carattere)
+
+SELECT * FROM Studenti WHERE nome LIKE 'M%';
+
+
+### JOIN tra tabelle
+
+Permettono di combinare dati da più tabelle collegate da una chiave comune.
+
+- **JOIN classico** (con WHERE):
+
+SELECT * FROM Ordini, Clienti WHERE Ordini.id_cliente = Clienti.id;
+
+
+- **INNER JOIN**: solo righe con corrispondenza in entrambe le tabelle
+
+SELECT * FROM Ordini INNER JOIN Clienti ON Ordini.id_cliente = Clienti.id;
+
+
+- **LEFT JOIN**: tutte le righe della tabella sinistra, anche senza corrispondenza
+- **RIGHT JOIN**: tutte le righe della tabella destra, anche senza corrispondenza
+- **SELF JOIN**: una tabella unita con sé stessa (es. confrontare dipendenti e loro manager)
+
+### Funzioni di aggregazione (FAD)
+
+Operano su un insieme di valori e restituiscono un singolo risultato:
+
+- `COUNT()` → conta le righe
+- `SUM()` → somma i valori
+- `AVG()` → calcola la media
+- `MIN()` / `MAX()` → valore minimo/massimo
+
+SELECT AVG(voto) FROM Studenti;
+SELECT classe, COUNT(*) FROM Studenti GROUP BY classe;
+
+
+### Query annidate (nested queries)
+
+Una query dentro un'altra, dove la sottoquery viene eseguita prima:
+
+SELECT nome FROM Studenti
+WHERE voto > (SELECT AVG(voto) FROM Studenti);
+
+
+→ seleziona gli studenti con voto superiore alla media generale.
+
+### DCL – Controllo dei dati
+
+Gestisce i permessi degli utenti sul database:
+
+- `GRANT` → concede privilegi
+
+GRANT SELECT, INSERT ON Studenti TO utente1;
+
+- `REVOKE` → revoca privilegi
+
+REVOKE INSERT ON Studenti FROM utente1;
