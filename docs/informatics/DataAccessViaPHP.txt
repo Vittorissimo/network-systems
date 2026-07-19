@@ -1,0 +1,116 @@
+### HTML di base per form
+
+Per inviare dati a uno script PHP serve un form HTML:
+
+<form action="elabora.php" method="post">
+  <label>Nome utente:</label>
+  <input type="text" name="username">
+  
+  <label>Ruolo:</label>
+  <select name="ruolo">
+    <option value="studente">Studente</option>
+    <option value="docente">Docente</option>
+  </select>
+  
+  <input type="submit" value="Invia">
+</form>
+
+
+- `method="post"` invia i dati in modo "nascosto" (adatto a form con password o dati sensibili)
+- `method="get"` li mostra nell'URL (es. `elabora.php?username=mario`)
+- L'attributo `name` di ogni campo è la chiave con cui PHP riceverà il valore
+
+### Cenni al linguaggio PHP
+
+PHP è un linguaggio che viene eseguito **sul server**, non nel browser. Genera HTML dinamico in base ai dati ricevuti.
+
+<?php
+  $nome = $_POST["username"]; // recupera il dato dal form
+  echo "Ciao, " . $nome . "!";
+?>
+
+- Variabili precedute da `$`, niente dichiarazione di tipo
+- `$_POST` e `$_GET` sono array associativi che contengono i dati ricevuti dal form
+- `echo` stampa output (testo/HTML) verso il browser
+
+### Accesso al database con mysqli
+
+### 1. Connessione al database
+
+$conn = mysqli_connect("localhost", "utente", "password", "nome_db");
+
+if (!$conn) {
+    die("Connessione fallita: " . mysqli_connect_error());
+}
+
+
+2. Query semplice(senza parametri esterni)
+
+$sql = "SELECT * FROM studenti";
+$risultato = mysqli_query($conn, $sql);
+
+
+Usata quando la query è **fissa**, senza dati inseriti dall'utente.
+
+### 3. Query parametrica (prepared statement) — più sicura
+
+Quando la query contiene dati provenienti dall'utente (es. dal form), si usano i **prepared statement** per evitare attacchi di tipo *SQL injection*.
+
+// Prepara la query con un segnaposto "?"
+$stmt = mysqli_prepare($conn, "SELECT * FROM studenti WHERE classe = ?");
+
+// Lega il parametro: "s" = string, "i" = integer, "d" = double
+mysqli_stmt_bind_param($stmt, "s", $classe);
+
+// Esegue la query con il valore effettivo di $classe
+mysqli_stmt_execute($stmt);
+
+// Recupera il risultato
+$risultato = mysqli_stmt_get_result($stmt);
+
+
+Il flusso è sempre: **prepara → lega i parametri → esegui → leggi i risultati**.
+
+### 4. Leggere i risultati
+
+// Estrae una riga come array associativo (chiave = nome colonna)
+while ($riga = mysqli_fetch_assoc($risultato)) {
+    echo $riga["nome"] . " - " . $riga["cognome"] . "<br>";
+}
+
+// Conta quante righe sono state restituite
+$numero_righe = mysqli_num_rows($risultato);
+echo "Trovati $numero_righe studenti.";
+
+
+### 5. Gestioni degli errori
+
+if (!$risultato) {
+    die("Errore nella query: " . mysqli_error($conn));
+}
+
+
+- `mysqli_connect_error()` → errori di connessione
+- `mysqli_error($conn)` → errori sull'ultima query eseguita
+- È buona norma controllare sempre l'esito di ogni operazione (`die()` o gestione più elegante in caso di fallimento)
+
+### Schema riassuntivo del flusso completo
+
+1. L'utente compila un **form HTML** e lo invia
+2. PHP riceve i dati con `$_POST` / `$_GET`
+3. Si **connette** al database (`mysqli_connect`)
+4. **Prepara** la query con i dati ricevuti (`mysqli_prepare`, `mysqli_bind_param`, `mysqli_execute`) oppure esegue una query diretta (`mysqli_query`)
+5. **Legge** i risultati (`mysqli_fetch_assoc`, `mysqli_num_rows`)
+6. Genera l'HTML di risposta per l'utente
+7. In ogni passaggio, **controlla gli errori**
+
+funzioni:
+
+- **mysqli_connect**: apre la connessione al database (server, utente, password, nome db)
+- **mysqli_query**: esegue direttamente una query SQL (senza parametri esterni)
+- **mysqli_prepare**: prepara una query con segnaposto `?` per i parametri
+- **mysqli_bind_param**: collega le variabili PHP ai segnaposto della query preparata, specificandone il tipo (s/i/d/b)
+- **mysqli_execute**: esegue la query preparata con i valori legati
+- **mysqli_fetch_assoc**: estrae una riga di risultato come array associativo (chiave = nome colonna)
+- **mysqli_num_rows**: restituisce il numero di righe ottenute da una query
+- **funzioni per la gestione errori** (`mysqli_error`, `mysqli_connect_error`): restituiscono il messaggio di errore relativo all'ultima operazione fallita
